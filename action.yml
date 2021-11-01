@@ -26,7 +26,7 @@ runs:
         -storepasswordincleartext
         -name "GitHub"
         -username "${{ github.repository_owner }}"
-        -password "${{ inputs.github-token }}"
+        -password "${{ github.token }}"
 
     - run: ${{ github.action_path }}/update-registry.ps1 -PortName "${{ inputs.port-name }}" -PortRef "${{ inputs.port-ref }}"
       shell: pwsh
