@@ -1,5 +1,5 @@
 name: 'vcpkg-registry-update'
-description: 'Updates PazerOP/vcpkg-registry'
+description: 'Triggers a workflow dispatch for this port'
 inputs:
   port-name:
     description: 'Name of the port'
@@ -7,53 +7,20 @@ inputs:
   port-ref:
     description: 'Ref of the port'
     required: true
-  github-token:
-    description: 'GITHUB_TOKEN'
-    required: true
+    default: ${{ github.sha }}
 runs:
   using: "composite"
   steps:
-    - uses: actions/checkout@v2
+    - name: Trigger update workflow
+      shell: bash
+      run: >
+        curl
+        -u PazerOP:${{ github.token }}
+        -X POST
+        -H "Accept: application/vnd.github.v3+json"
+        https://api.github.com/repos/PazerOP/vcpkg-registry/actions/workflows/update_registry.yml/dispatches
+        -d '{ "ref":"master", "inputs":{ "port-name":"${{ inputs.port-name }}", "port-ref":"${{ inputs.port-ref }}"} }'
+
       with:
         repository: PazerOP/vcpkg-registry
         path: vcpkg-registry
-
-    - name: Setup NuGet Credentials
-      shell: bash
-      run: >
-        nuget sources add
-        -source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
-        -storepasswordincleartext
-        -name "GitHub"
-        -username "${{ github.repository_owner }}"
-        -password "${{ github.token }}"
-
-    - run: ${{ github.action_path }}/update-registry.ps1 -PortName "${{ inputs.port-name }}" -PortRef "${{ inputs.port-ref }}"
-      shell: pwsh
-
-    - shell: bash
-      working-directory: vcpkg-registry
-      run: |
-        echo Formatting all manifests...
-        vcpkg format-manifest --all --x-builtin-ports-root="ports/" --x-builtin-registry-versions-dir="versions/"
-
-        echo Configuring git...
-        git config --global user.email "mrhaynie@live.com"
-        git config --global user.name "Matt Haynie (vcpkg-registry-update)"
-
-        echo Committing ports...
-        git add "ports/*"
-        git commit "ports/*" -m "Updated ports"
-
-        echo Updating versions...
-        vcpkg x-add-version --all --overwrite-version --verbose --x-builtin-ports-root="ports/" --x-builtin-registry-versions-dir="versions/"
-
-        echo Committing versions...
-        git add "versions/*"
-        git commit "versions/*" -m "Updated versions"
-
-        echo Pushing changes...
-        git push
-
-        echo Latest registry revision:
-        git rev-parse HEAD
