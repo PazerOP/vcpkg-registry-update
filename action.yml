@@ -1,0 +1,11 @@
+name: 'vcpkg-registry-update'
+description: 'Updates PazerOP/vcpkg-registry'
+inputs:
+  port-name:
+    description: 'Name of the port'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: ${{ github.action_path }}/update-registry.ps1 -PortName "${{ inputs.port-name }}"
+      shell: pwsh
