@@ -82,48 +82,48 @@ if ($LASTEXITCODE -ne 0) {
 	Write-Error "Failed to build $PortName"
 }
 
-Set-Location -LiteralPath $registryRoot
+# Set-Location -LiteralPath $registryRoot
 
-Write-Host -ForegroundColor Green "Formatting all manifests..."
-vcpkg format-manifest --all --x-builtin-ports-root="ports/" --x-builtin-registry-versions-dir="versions/"
-if ($LASTEXITCODE -ne 0) {
-	Write-Error "Failed to format all manifests"
-}
+# Write-Host -ForegroundColor Green "Formatting all manifests..."
+# vcpkg format-manifest --all --x-builtin-ports-root="ports/" --x-builtin-registry-versions-dir="versions/"
+# if ($LASTEXITCODE -ne 0) {
+# 	Write-Error "Failed to format all manifests"
+# }
 
-Write-Host -ForegroundColor Green "Committing ports..."
-git add "ports/*"
-if ($LASTEXITCODE -ne 0) {
-	Write-Error "Failed to git add ports"
-}
-git commit "ports/*" -m "Updated ports"
-if ($LASTEXITCODE -ne 0) {
-	Write-Error "Failed to git commit ports"
-}
+# Write-Host -ForegroundColor Green "Committing ports..."
+# git add "ports/*"
+# if ($LASTEXITCODE -ne 0) {
+# 	Write-Error "Failed to git add ports"
+# }
+# git commit "ports/*" -m "Updated ports"
+# if ($LASTEXITCODE -ne 0) {
+# 	Write-Error "Failed to git commit ports"
+# }
 
-Write-Host -ForegroundColor Green "Updating versions..."
-vcpkg x-add-version --all --overwrite-version --verbose --x-builtin-ports-root="ports/" --x-builtin-registry-versions-dir="versions/"
-if ($LASTEXITCODE -ne 0) {
-	Write-Error "Failed to vcpkg update versions"
-}
+# Write-Host -ForegroundColor Green "Updating versions..."
+# vcpkg x-add-version --all --overwrite-version --verbose --x-builtin-ports-root="ports/" --x-builtin-registry-versions-dir="versions/"
+# if ($LASTEXITCODE -ne 0) {
+# 	Write-Error "Failed to vcpkg update versions"
+# }
 
-Write-Host -ForegroundColor Green "Committing versions..."
-git add "versions/*"
-if ($LASTEXITCODE -ne 0) {
-	Write-Error "Failed to git add versions"
-}
-git commit "versions/*" -m "Updated versions"
-if ($LASTEXITCODE -ne 0) {
-	Write-Error "Failed to git commit versions"
-}
+# Write-Host -ForegroundColor Green "Committing versions..."
+# git add "versions/*"
+# if ($LASTEXITCODE -ne 0) {
+# 	Write-Error "Failed to git add versions"
+# }
+# git commit "versions/*" -m "Updated versions"
+# if ($LASTEXITCODE -ne 0) {
+# 	Write-Error "Failed to git commit versions"
+# }
 
-Write-Host -ForegroundColor Green "Pushing changes..."
-git push
-if ($LASTEXITCODE -ne 0) {
-	Write-Error "Failed to git push"
-}
+# Write-Host -ForegroundColor Green "Pushing changes..."
+# git push
+# if ($LASTEXITCODE -ne 0) {
+# 	Write-Error "Failed to git push"
+# }
 
-Write-Host -ForegroundColor Green "Latest registry revision:"
-git rev-parse HEAD
-if ($LASTEXITCODE -ne 0) {
-	Write-Error "Failed to fetch latest revision"
-}
+# Write-Host -ForegroundColor Green "Latest registry revision:"
+# git rev-parse HEAD
+# if ($LASTEXITCODE -ne 0) {
+# 	Write-Error "Failed to fetch latest revision"
+# }

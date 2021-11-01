@@ -32,3 +32,26 @@ runs:
       shell: pwsh
       env:
         X_VCPKG_NUGET_ID_PREFIX: ${{ github.event.repository.name }}
+
+    - shell: bash
+      working-directory: vcpkg-registry
+      run: |
+        echo Formatting all manifests...
+        vcpkg format-manifest --all --x-builtin-ports-root="ports/" --x-builtin-registry-versions-dir="versions/"
+
+        echo Committing ports...
+        git add "ports/*"
+        git commit "ports/*" -m "Updated ports"
+
+        echo Updating versions...
+        vcpkg x-add-version --all --overwrite-version --verbose --x-builtin-ports-root="ports/" --x-builtin-registry-versions-dir="versions/"
+
+        echo Committing versions...
+        git add "versions/*"
+        git commit "versions/*" -m "Updated versions"
+
+        echo Pushing changes...
+        git push
+
+        echo Latest registry revision:
+        git rev-parse HEAD
