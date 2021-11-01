@@ -11,9 +11,9 @@ Write-Host -ForegroundColor Green "Removing any old installations of $PortName..
 vcpkg remove "$PortName"
 
 $registryRoot = "vcpkg-registry"
-Write-Host -ForegroundColor Green "Checking out vcpkg registry..."
-Remove-Item -LiteralPath $registryRoot -Force -Recurse -ErrorAction Ignore
-git clone "https://github.com/PazerOP/vcpkg-registry.git" "$registryRoot"
+# Write-Host -ForegroundColor Green "Checking out vcpkg registry..."
+# Remove-Item -LiteralPath $registryRoot -Force -Recurse -ErrorAction Ignore
+# git clone "https://github.com/PazerOP/vcpkg-registry.git" "$registryRoot"
 
 # Figure out paths
 $allPortsRoot = $registryRoot + "/ports/"
@@ -80,7 +80,7 @@ $vcpkgJson | ConvertTo-Json -Depth 100 | Set-Content -LiteralPath $portJsonPath;
 
 # Make sure we can build
 Write-Host -ForegroundColor Green "Testing build..."
-vcpkg install "$PortName" $overlayPortsArg
+vcpkg install "$PortName" --debug $overlayPortsArg
 if ($LASTEXITCODE -ne 0) {
 	Write-Error "Failed to build $PortName"
 }
