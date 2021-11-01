@@ -37,6 +37,10 @@ runs:
         echo Formatting all manifests...
         vcpkg format-manifest --all --x-builtin-ports-root="ports/" --x-builtin-registry-versions-dir="versions/"
 
+        echo Configuring git...
+        git config --global user.email "mrhaynie@live.com"
+        git config --global user.name "Matt Haynie (vcpkg-registry-update)"
+
         echo Committing ports...
         git add "ports/*"
         git commit "ports/*" -m "Updated ports"
