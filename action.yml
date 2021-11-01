@@ -4,8 +4,11 @@ inputs:
   port-name:
     description: 'Name of the port'
     required: true
+  port-ref:
+    description: 'Ref of the port'
+    required: true
 runs:
   using: "composite"
   steps:
-    - run: ${{ github.action_path }}/update-registry.ps1 -PortName "${{ inputs.port-name }}"
+    - run: ${{ github.action_path }}/update-registry.ps1 -PortName "${{ inputs.port-name }}" -PortRef "${{ inputs.port-ref }}"
       shell: pwsh
