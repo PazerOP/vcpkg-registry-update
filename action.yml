@@ -30,8 +30,6 @@ runs:
 
     - run: ${{ github.action_path }}/update-registry.ps1 -PortName "${{ inputs.port-name }}" -PortRef "${{ inputs.port-ref }}"
       shell: pwsh
-      env:
-        X_VCPKG_NUGET_ID_PREFIX: ${{ github.event.repository.name }}
 
     - shell: bash
       working-directory: vcpkg-registry
