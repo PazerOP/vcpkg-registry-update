@@ -8,6 +8,10 @@ inputs:
     description: 'Ref of the port'
     required: true
     default: ${{ github.sha }}
+  workflow-pat:
+    description: 'Personal access token that has permissions to start a workflow'
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -15,7 +19,7 @@ runs:
       shell: bash
       run: >
         curl
-        -u PazerOP:${{ github.token }}
+        -u PazerOP:${{ inputs.workflow-pat }}
         -X POST
         -H "Accept: application/vnd.github.v3+json"
         https://api.github.com/repos/PazerOP/vcpkg-registry/actions/workflows/update_registry.yml/dispatches
