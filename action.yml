@@ -12,7 +12,7 @@ runs:
   steps:
     - uses: actions/checkout@v2
       with:
-        repository: https://github.com/PazerOP/vcpkg-registry.git
+        repository: PazerOP/vcpkg-registry
         path: vcpkg-registry
 
     - run: ${{ github.action_path }}/update-registry.ps1 -PortName "${{ inputs.port-name }}" -PortRef "${{ inputs.port-ref }}"
