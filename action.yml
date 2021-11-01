@@ -24,3 +24,12 @@ runs:
         -H "Accept: application/vnd.github.v3+json"
         https://api.github.com/repos/PazerOP/vcpkg-registry/actions/workflows/update_registry.yml/dispatches
         -d '{ "ref":"main", "inputs":{ "port-name":"${{ inputs.port-name }}", "port-ref":"${{ inputs.port-ref }}"} }'
+
+      # uses: benc-uk/workflow-dispatch@v1
+      # with:
+      #   repo: PazerOP/vcpkg-registry
+      #   ref: main
+      #   workflow: update_registry.yml
+      #   token: ${{ inputs.workflow-pat }}
+      #   inputs: '{ "port-name":"${{ inputs.port-name }}", "port-ref":"${{ inputs.port-ref }}" }'
+
