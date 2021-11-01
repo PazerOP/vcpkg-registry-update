@@ -7,6 +7,9 @@ inputs:
   port-ref:
     description: 'Ref of the port'
     required: true
+  github-token:
+    description: 'GITHUB_TOKEN'
+    required: true
 runs:
   using: "composite"
   steps:
@@ -23,7 +26,7 @@ runs:
         -storepasswordincleartext
         -name "GitHub"
         -username "${{ github.repository_owner }}"
-        -password "${{ secrets.GITHUB_TOKEN }}"
+        -password "${{ inputs.github-token }}"
 
     - run: ${{ github.action_path }}/update-registry.ps1 -PortName "${{ inputs.port-name }}" -PortRef "${{ inputs.port-ref }}"
       shell: pwsh
